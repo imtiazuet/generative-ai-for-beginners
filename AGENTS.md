@@ -320,3 +320,12 @@ npm run convert
 - The repository supports multiple API providers: Azure OpenAI, OpenAI, Microsoft Foundry Models, and offline providers such as Foundry Local and Ollama
 - Content is multilingual with automated translation workflows
 - Active community on Discord for questions and support
+
+## Cursor Cloud specific instructions
+
+Cloud agents boot with a Python 3.12 virtualenv at `/workspace/.venv` and with dependencies installed for the root package and each lesson app that has a `package-lock.json`. `python`, `python3`, `pip`, `pytest`, `ruff`, `black`, `mypy`, `isort`, and `jupyter` on `PATH` use that virtualenv. The Jupyter kernel name is `genai`.
+
+- Checks that do not need model credentials: `pytest`, `ruff check shared/`, and `black --check shared/`.
+- TypeScript lesson apps already have `node_modules`. Build with `npm run build` in the app directory. The recipe app (`06-text-generation-apps/typescript/recipe-app`), search app, and chat app compile. The function-calling app and the image-generation app currently fail `tsc` because of existing type errors in those samples.
+- Live model calls need a filled-in `.env` (copied from `.env.copy` when the file is missing). Placeholder values are not credentials. Samples that call `gpt-5-mini` must not send `temperature`, `top_p`, or `max_tokens`.
+- Preview the curriculum site with `python3 -m http.server 8080` from the repository root, then open `http://127.0.0.1:8080/`.
